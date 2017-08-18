@@ -16,9 +16,10 @@ router.get('/', (req,res)=>{
 })
 
 router.get('/:id', (req,res,next)=>{
-  queries.getVideo().then(videos=>{
+  queries.getVideo(req.params.id).then(videos=>{
     const fail = {} || undefined || [] || '' || null
     const foundVid = res.json(videos)[0]
+    console.log(foundVid);
     if(foundVid && foundVid!==fail){
       return foundVid
     } else {
