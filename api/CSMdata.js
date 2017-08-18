@@ -7,7 +7,8 @@ const API_URL = process.env.API_URL
 
 async function fetchData(){
   const res = await fetch(API_URL)
-  return await res.json()
+  const json = await res.json()
+  return json
 }
 
 router.get('/', function(req, res) {

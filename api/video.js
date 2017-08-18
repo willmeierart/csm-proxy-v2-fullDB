@@ -72,6 +72,8 @@ function fetchMP4(id){
   })
 }
 
+module.exports=router
+
 // async function fetchMP4(id){
 //   const initialReq = await fetch(`${VIMEO_API}/videos/${id}`, {method:'GET', headers:{Authorization:`Bearer ${ACCESS_TOKEN}`}})
 //   const validData = await [initialReq.files, initialReq.pictures.sizes]
