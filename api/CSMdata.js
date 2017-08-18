@@ -11,8 +11,6 @@ const API_URL = process.env.API_URL
 //   return json
 // }
 
-
-
 router.get('/', function(req, res) {
   function fetchData(){
     return fetch(API_URL)
