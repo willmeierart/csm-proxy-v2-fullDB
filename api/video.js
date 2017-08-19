@@ -37,12 +37,13 @@ router.get('/:id', (req,res,next)=>{
           entire_json:JSON.stringify(obj)
         }
         return queries.addVideo(postVid).then(video=>{
-          if(video){
-            return queries.getVideo(req.params.id)
-            .then(vid=>{return res.json(vid)[0]})
-            .catch(err=>console.log('err',err))
-          }
-          else{next(new Error('error'))}
+          res.json(video)
+          // if(video){
+          //   return queries.getVideo(req.params.id)
+          //   .then(vid=>{return res.json(vid)[0]})
+          //   .catch(err=>console.log('err',err))
+          // }
+          // else{next(new Error('error'))}
         })
       }).catch(err=>console.log('err', err))
       return bigReq
