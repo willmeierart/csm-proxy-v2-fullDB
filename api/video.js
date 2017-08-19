@@ -44,7 +44,7 @@ router.get('/:id', (req,res,next)=>{
           if(video){
             // res.json(video)
             queries.getVideo(req.params.id)
-            .then(vid=>res.json(vid)[0])
+            .then(vid=>res.json(vid[0]))
             .catch(err=>console.log('err',err))
           }
           else{next(new Error('error'))}
