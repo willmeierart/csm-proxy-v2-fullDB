@@ -12,5 +12,8 @@ module.exports = {
   },
   updateVideo: function(video, id){
     return knex('videos').where('vimeo_id', id).update(video, '*')
+  },
+  deleteVideo: function(id){
+    return knex('videos').where('vimeo_id', id).del()
   }
 }

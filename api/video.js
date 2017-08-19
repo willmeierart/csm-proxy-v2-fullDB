@@ -19,34 +19,53 @@ router.get('/:id', (req,res,next)=>{
   queries.getVideo(req.params.id).then(videos=>{
     const fail = {} || undefined || [] || '' || null
     const foundVid = res.json(videos)[0]
-    console.log(foundVid);
-    if(foundVid && foundVid!==fail){
+    // console.log('foundVid', foundVid);
+    if(foundVid){
       return foundVid
     } else {
-
-      const bigReq = fetchMP4().then(data=>{
-        console.log(data);
+      const bigReq = fetchMP4(req.params.id).then(res=>res)
+      .then(data=>{
+        // console.log('data', data);
         const precise = data.map((item)=>{
           if (item){return item.sort(
             (a,b)=>{return b.width-a.width})}
         })
         const HQobj = {HD:precise[0][0],thumb:precise[1][0],captions:precise[2]}
-        return res.json(HQobj)
-      }).catch(err=>console.log(err))
-
-      if(bigReq && bigReq!==fail){
+        return HQobj
+      }).then(obj=>{
+        console.log('OBJ', obj);
         const postVid = {
           vimeo_id:req.params.id,
-          entire_json:JSON.stringify(bigReq)
+          entire_json:JSON.stringify(obj)
         }
         queries.addVideo(postVid).then(video=>{
-          if(video){res.json(video)}
+          if(video){
+            // res.json(video)
+            queries.getVideo(req.params.id)
+            .then(vid=>res.json(vid)[0])
+            .catch(err=>console.log('err',err))
+          }
           else{next(new Error('error'))}
         })
-      }
+      }).catch(err=>console.log('err', err))
+
+      // if(bigReq){
+      //   const postVid = {
+      //     vimeo_id:req.params.id,
+      //     entire_json:JSON.stringify(bigReq)
+      //   }
+      //   queries.addVideo(postVid).then(video=>{
+      //     if(video){return res.json(video)}
+      //     else{next(new Error('error'))}
+      //   })
+      // }
       return bigReq
     }
   })
+})
+
+router.delete('/:id', (req,res,next)=>{
+  queries.deleteVideo(req.params.id).then(()=>{res.json({deleted:true})})
 })
 
 function fetchMP4(id){
@@ -64,13 +83,17 @@ function fetchMP4(id){
               return [{file:cap.link,url:`https://player.vimeo.com${cap.uri}`}]
             })
             validData = validData.concat(CAPS)
-            console.log(captions.data);
+            console.log('captions.data',captions.data);
             return validData
           }
           )})
       } else {return validData}
     })
   })
+}
+
+function postMP4(){
+
 }
 
 module.exports=router
@@ -82,6 +105,7 @@ module.exports=router
 //     const captionsPath = await [initialReq]
 //   }
 // }
+
 
 
 // router.post('/',(req,res,next)=>{
