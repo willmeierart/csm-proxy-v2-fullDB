@@ -36,9 +36,9 @@ router.get('/:id', (req,res,next)=>{
           vimeo_id:req.params.id,
           entire_json:JSON.stringify(obj)
         }
-        queries.addVideo(postVid).then(video=>{
+        return queries.addVideo(postVid).then(video=>{
           if(video){
-            queries.getVideo(req.params.id)
+            return queries.getVideo(req.params.id)
             .then(vid=>{return res.json(vid)[0]})
             .catch(err=>console.log('err',err))
           }
