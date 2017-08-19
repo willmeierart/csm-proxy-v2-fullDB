@@ -19,8 +19,8 @@ router.get('/:id', (req,res,next)=>{
   queries.getVideo(req.params.id).then(videos=>{
     const fail = {} || undefined || [] || '' || null
     const foundVid = res.json(videos)[0]
-    // console.log('foundVid', foundVid);
-    if(foundVid){
+    console.log('foundVid', foundVid);
+    if(foundVid || req.params.id == foundVid.id){
       return foundVid
     } else {
       const bigReq = fetchMP4(req.params.id).then(res=>res)
