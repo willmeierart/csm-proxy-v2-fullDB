@@ -19,7 +19,7 @@ router.get('/:id', (req,res,next)=>{
   queries.getVideo(req.params.id).then(videos=>{
     console.log('videos',videos);
     const fail = {} || undefined || [] || '' || null
-    const foundVid = res.json(videos[0])
+    const foundVid = res.json(videos)[0]
     console.log('foundVid', foundVid);
     if(foundVid || req.params.id == foundVid.id){
       console.log('went through', foundVid);
