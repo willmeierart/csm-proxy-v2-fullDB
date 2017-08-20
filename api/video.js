@@ -51,6 +51,15 @@ router.get('/:id', (req,res,next)=>{
   })
 })
 
+router.get('/:id/captions',(req,res,next)=>{
+  fetch(`${VIMEO_API}/videos/${req.params.id}/texttracks`, {method:'GET', headers:{Authorization:`Bearer ${ACCESS_TOKEN}`}})
+  .then(res=>{
+    console.log(res);
+    return res.json()}).then(json=>{
+    console.log(json);
+    return res.json(json)})
+})
+
 router.delete('/:id', (req,res,next)=>{
   queries.deleteVideo(req.params.id).then(()=>{res.json({deleted:true})})
 })
